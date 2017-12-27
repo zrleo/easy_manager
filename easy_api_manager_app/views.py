@@ -6,6 +6,7 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
 
 # 首页(登录)
@@ -27,7 +28,8 @@ def login_action_views(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)  # 验证登录
-            response = HttpResponseRedirect('/api_manage_views/')  # 登录成功跳转到接口列表页
+            print user
+            response = HttpResponseRedirect('api_list_manager')  # 登录成功跳转到接口列表页
             request.session['username'] = username    # 将 session 信息写到服务器
             return response
         else:
@@ -41,4 +43,10 @@ def login_action_views(request):
 def logout_action_views(request):
     auth.logout(request)
     return HttpResponseRedirect('/index/')
+
+
+@login_required()
+def api_list_manager_views(request):
+    return render(request, "api_list.html")
+
 
