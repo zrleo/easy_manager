@@ -3,11 +3,14 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-from libs.models import BaseModel, TimeModelMinxin
+from libs.models.mixins import TimeModelMixin, EditorModelMixin
+from libs.models.base import BaseModel
+
+
 # Create your models here.
 
 
-class ProjectModel(BaseModel, TimeModelMinxin):
+class ProjectModel(BaseModel, TimeModelMixin):
     project_name = models.CharField(max_length=200, unique=True, )
 
 
