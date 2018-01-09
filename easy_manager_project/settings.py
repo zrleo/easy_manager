@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles', 'app.easy_api_manager_app',
+    'django.contrib.staticfiles',
+    'app.easy_api_manager_app',
+    'app.account',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
-AUTH_USER_MODEL = 'account.UserInfo'
+AUTH_USER_MODEL = 'account.Account'
 
 
 SESSION_COOKIE_AGE = 3600 * 24  # session 24小时有效

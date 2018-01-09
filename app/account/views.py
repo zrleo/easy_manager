@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import json
 from django.shortcuts import render
 from django.db import transaction, IntegrityError
-
+from django.http import HttpResponse
 
 from .forms import RegisteredForm
 from libs.http.response import http_response

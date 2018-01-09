@@ -23,7 +23,6 @@ def http_response(request, context={}, statuscode=None, code=None, msg=None, con
     :return str 序列化json数据或pb流
     """
     content_dict = {
-        "version": settings.VERSION,
         "code": code if code is not None else statuscode.code,
         "msg": msg if msg is not None else statuscode.msg,
         "msg_cn": getattr(statuscode, 'msgcn', ''),
