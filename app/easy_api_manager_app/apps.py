@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class UsersConfig(AppConfig):
-    name = 'apps.users'
+class EasyApiManagerAppConfig(AppConfig):
+    name = 'app.easy_api_manager_app'
