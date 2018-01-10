@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import  AbstractBaseUser, BaseUserManager
 from libs.forms.validators import email_validator
 # Create your models here.
+from libs.models.mixins import TimeModelMixin
 
 
 class UserManager(BaseUserManager):
@@ -47,19 +48,25 @@ class Account(AbstractBaseUser):
             "email": kwargs.get("email"),
             "department": kwargs.get("department"),
         }
-        user = Account.objects.filter(name_cn=kwargs['name_cn'])
-        if user:
-            user.update(**fields)
-            return user[0].id
+        account = Account.objects.filter(name_cn=kwargs['name_cn'])
+        if account:
+            account.update(**fields)
+            return account[0].id
         else:
             raw_password = kwargs['password']
-            user = cls(**fields)
-            user.set_password(raw_password)
-            user.save()
-            return user.id
+            account = cls(**fields)
+            account.set_password(raw_password)
+            account.save()
+            return account.id
 
 
+class UserSessionKey(TimeModelMixin, models.Model):
+    '''
+    用户不同终端session key
+    '''
+    user_id = models.IntegerField(u"用户ID", null=False)
+    session_key = models.CharField(u'session key', max_length=40)
 
-
-
+    class Meta:
+        db_table = 'account_session_key'
 

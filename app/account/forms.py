@@ -33,11 +33,6 @@ class LoginForm(forms.Form):
     email = forms.CharField(max_length=100, validators=[email_validator])
     password = forms.CharField(max_length=32, min_length=8)
 
-    def clean(self):
-        email = self.cleaned_data['email']
-        if not email:
-            raise forms.ValidationError('invalid email', code=ERRORCODE.PARAM_ERROR.code)
-
 
 # class LoginForm(forms.Form):
 #     mobile = forms.CharField(max_length=11, validators=[mobile_validator])

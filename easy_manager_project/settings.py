@@ -130,5 +130,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 AUTH_USER_MODEL = 'account.Account'
 
-
+# session
 SESSION_COOKIE_AGE = 3600 * 24  # session 24小时有效
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'

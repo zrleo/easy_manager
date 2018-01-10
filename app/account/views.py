@@ -4,12 +4,13 @@ import json
 from django.shortcuts import render
 from django.db import transaction, IntegrityError
 from django.http import HttpResponse
-
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import logout, authenticate
 from .forms import RegisteredForm, LoginForm
 from libs.http.response import http_response
 from utils.errorcode import ERRORCODE
 from .models import Account
-from .backend import update_userinfo_session_cookie
+from .backend import update_userinfo_session_cookie, do_login
 # Create your views here.
 
 
@@ -36,9 +37,11 @@ def register_views(request):
                 email=email,
                 name_cn=name_cn,
                 department=department,
+
             )
             account.set_password(password)
             account.save()
+            do_login(request, account)
             response = http_response(request, statuscode=ERRORCODE.SUCCESS)
             update_userinfo_session_cookie(request, response, account)
             return response
@@ -52,7 +55,28 @@ def login_views(request):
     :param request:
     :return:
     '''
-    form = LoginForm(request.GET)
+    form = LoginForm(request.POST)
     if not form.is_valid():
-        json_msg = json.loads(form.errors.as_json)
-        code = json_msg.values[0][0]['code']
+        json_msg = json.loads(form.errors.as_json())
+        code = json_msg.values()[0][0]['code']
+        return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
+
+    email = form.cleaned_data['email']
+    password = form.cleaned_data['password']
+    print password
+
+    if not Account.objects.filter(email=email).exists():
+        return http_response(request, statuscode=ERRORCODE.NOT_FOUND)
+    if request.user.is_authenticated():
+        logout(request)
+
+    user = authenticate(username=email, password=password)
+    if not user:
+        return http_response(request, statuscode=ERRORCODE.INVALID_PASSWORD)
+    if not user.is_active:
+        return http_response(request, statuscode=ERRORCODE.IN_BLACKLIST)
+    do_login(request, user)
+
+    response = http_response(request, statuscode=ERRORCODE.SUCCESS)
+    update_userinfo_session_cookie(request, response, user)
+    return response
