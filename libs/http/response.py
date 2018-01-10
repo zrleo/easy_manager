@@ -30,10 +30,10 @@ def http_response(request, context={}, statuscode=None, code=None, msg=None, con
     }
     content_dict.update(context)
     response_content = json.dumps(content_dict)
-    output = request.parameters.get('output', 'json')
+    output = request.POST.get('output', 'json')
     # 根据不同的output类型返回不同的结果
     if output == 'jsonp':
-        callback = request.parameters.get('callback', 'callback')
+        callback = request.POST.get('callback', 'callback')
         response_content = '{0}({1});'.format(callback, response_content)
         content_type = content_type or 'application/javascript'
         return HttpResponse(response_content, content_type=content_type)

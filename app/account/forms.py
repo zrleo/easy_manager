@@ -10,8 +10,9 @@ class RegisteredForm(forms.Form):
     注册form
     '''
     email = forms.CharField(max_length=30, validators=[email_validator])
-    username = forms.CharField(max_length=100)
+    name_cn = forms.CharField(max_length=100)
     password = forms.CharField(max_length=32, min_length=8)
+    department = forms.CharField(max_length=100)
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -23,6 +24,19 @@ class RegisteredForm(forms.Form):
         email = self.cleaned_data.get('email')
         if not email:
             raise forms.ValidationError('PARAM ERROR', code=ERRORCODE.PARAM_ERROR.code)
+
+
+class LoginForm(forms.Form):
+    '''
+    登录 form
+    '''
+    email = forms.CharField(max_length=100, validators=[email_validator])
+    password = forms.CharField(max_length=32, min_length=8)
+
+    def clean(self):
+        email = self.cleaned_data['email']
+        if not email:
+            raise forms.ValidationError('invalid email', code=ERRORCODE.PARAM_ERROR.code)
 
 
 # class LoginForm(forms.Form):
