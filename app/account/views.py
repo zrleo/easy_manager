@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.db import transaction, IntegrityError
 from django.http import HttpResponse
 
-from .forms import RegisteredForm
+from .forms import RegisteredForm, LoginForm
 from libs.http.response import http_response
 from utils.errorcode import ERRORCODE
 from .models import Account
@@ -27,22 +27,32 @@ def register_views(request):
 
     email = form.cleaned_data['email']
     name_cn = form.cleaned_data['name_cn']
-    department = form.cleaned_data['department']
     password = form.cleaned_data['password']
+    department = form.cleaned_data['department']
 
     try:
         with transaction.atomic():
             account = Account.objects.create(
                 email=email,
                 name_cn=name_cn,
-                deparment=department
+                department=department,
             )
             account.set_password(password)
             account.save()
-            # 登录
-
             response = http_response(request, statuscode=ERRORCODE.SUCCESS)
             update_userinfo_session_cookie(request, response, account)
             return response
     except IntegrityError:
         return http_response(request, statuscode=ERRORCODE.HAD_USED)
+
+
+def login_views(request):
+    '''
+    登录接口
+    :param request:
+    :return:
+    '''
+    form = LoginForm(request.GET)
+    if not form.is_valid():
+        json_msg = json.loads(form.errors.as_json)
+        code = json_msg.values[0][0]['code']
