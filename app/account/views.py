@@ -72,7 +72,6 @@ def login_views(request):
     if not user.is_active:
         return http_response(request, statuscode=ERRORCODE.IN_BLACKLIST)
     do_login(request, user)
-
     response = http_response(request, statuscode=ERRORCODE.SUCCESS)
     update_userinfo_session_cookie(request, response, user)
     return response

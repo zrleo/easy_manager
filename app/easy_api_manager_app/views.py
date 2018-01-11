@@ -6,10 +6,17 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
+from .forms import AddProjectForm
 
 # Create your views here.
 
 # 首页(登录)
+
+
+def add_project_views(request):
+    form = AddProjectForm(request.POST)
+    if
+
 
 
 def index(request):
