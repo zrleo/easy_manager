@@ -3,14 +3,13 @@ from __future__ import unicode_literals
 import json
 from django.shortcuts import render
 from django.db import transaction, IntegrityError
-from django.http import HttpResponse
-from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import logout, authenticate
 from .forms import RegisteredForm, LoginForm
 from libs.http.response import http_response
 from utils.errorcode import ERRORCODE
 from .models import Account
 from .backend import update_userinfo_session_cookie, do_login
+from .constants import USERINFO_COOKIE_KEY
 # Create your views here.
 
 
@@ -37,7 +36,6 @@ def register_views(request):
                 email=email,
                 name_cn=name_cn,
                 department=department,
-
             )
             account.set_password(password)
             account.save()
@@ -63,8 +61,6 @@ def login_views(request):
 
     email = form.cleaned_data['email']
     password = form.cleaned_data['password']
-    print password
-
     if not Account.objects.filter(email=email).exists():
         return http_response(request, statuscode=ERRORCODE.NOT_FOUND)
     if request.user.is_authenticated():
@@ -80,3 +76,19 @@ def login_views(request):
     response = http_response(request, statuscode=ERRORCODE.SUCCESS)
     update_userinfo_session_cookie(request, response, user)
     return response
+
+
+def logout_view(request):
+    '''
+    退出接口
+    :param request:
+    :return:
+    '''
+    logout(request)
+    response = http_response(request, statuscode=ERRORCODE.SUCCESS)
+    # 删除 cookies
+    response.delete_cookie(
+        USERINFO_COOKIE_KEY,
+    )
+    return response
+
