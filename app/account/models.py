@@ -39,7 +39,7 @@ class Account(AbstractBaseUser):
     create_time = models.DateTimeField(u'创建时间', auto_now_add=True, editable=False)
     last_update_time = models.DateTimeField(u'最新更新时间', auto_now_add=True, editable=False)
     objects = UserManager()
-    USERNAME_FIELD = 'name_cn'
+    USERNAME_FIELD = 'email'
 
     @classmethod
     def create_or_update_users(cls, **kwargs):

@@ -54,7 +54,6 @@ def kickout_pre_session(request):
 
 
 def do_login(request, user):
-    print user
     user.backend = settings.AUTHENTICATION_BACKENDS[0]
     login(request, user)
     kickout_pre_session(request)
