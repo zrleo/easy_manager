@@ -1,22 +1,38 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import json
 from django.shortcuts import render
 from django.contrib import auth
 from django.http import HttpResponseRedirect
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
-
+from django.db import IntegrityError
+from libs.http.response import http_response
+from utils.errorcode import ERRORCODE
 from .forms import AddProjectForm
+from .models import Project
 
 # Create your views here.
-
-# 首页(登录)
 
 
 def add_project_views(request):
     form = AddProjectForm(request.POST)
-    if
+    if not form.is_valid():
+        json_msg = json.loads(form.errors.as_json())
+        code = json_msg.values[0][0]['code']
+        return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
 
+    project_name = form.cleaned_data['project_name']
+    try:
+        with transaction.atomic():
+            project = Project.objects.create(
+                project_name=project_name
+            )
+            project.save()
+            response = http_response(request, statuscode=ERRORCODE.SUCCESS)
+            return response
+    except IntegrityError:
+        return http_response(request, statuscode=ERRORCODE.HAD_USED)
 
 
 def index(request):
