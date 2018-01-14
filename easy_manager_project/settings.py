@@ -137,4 +137,4 @@ SESSION_COOKIE_DOMAIN = None
 SESSION_COOKIE_HTTPONLY = False
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_COOKIE_NAME = "lego_sid"
-SESSION_CACHE_ALIAS = "lego_session"
+# SESSION_CACHE_ALIAS = "lego_session"
