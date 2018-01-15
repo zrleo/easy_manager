@@ -20,17 +20,15 @@ from .models import Project
 @require_POST
 def add_project_views(request):
     '''
-    增加
+    增加项目
     :param request:
     :return:
     '''
     form = AddProjectForm(request.POST)
     if not form.is_valid():
         json_msg = json.loads(form.errors.as_json())
-
         code = json_msg.values()[0][0]['code']
         return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
-
     project_name = form.cleaned_data['project_name']
     project_id = form.cleaned_data['project_id']
     try:
@@ -85,7 +83,7 @@ def project_edit_views(request):
     project_id = request.POST.get('project_id')
     if not project_id:
         return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is requred')
-    #  TODO 这里有一个 bug
+    #  TODO 这里有一个 bug, 当传过来的project_id不存在时，系统直接报错了，未处理异常
     try:
         project = Project.objects.get(project_id=project_id)
         project.project_name = form.cleaned_data['project_name']

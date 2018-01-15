@@ -25,11 +25,13 @@ class METHOD(object):
 
 class STATUS(object):
     '''接口状态'''
-    WAIT = 0
-    RUNNING = 1
-    RAN = 2
+    NEW = 0
+    WAIT = 1
+    RUNNING = 2
+    RAN = 3
 
     CHOICES = (
+        (NEW, u'等待'),
         (WAIT, u'等待'),
         (RUNNING, u'执行中'),
         (RAN, u'已执行'),
