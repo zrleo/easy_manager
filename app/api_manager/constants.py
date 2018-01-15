@@ -34,3 +34,13 @@ class STATUS(object):
         (RUNNING, u'执行中'),
         (RAN, u'已执行'),
     )
+
+
+class TEST_RESULT(object):
+    PASS = 0
+    FAIL = 1
+
+    CHOICES = (
+        (PASS, u'成功'),
+        (FAIL, u'失败'),
+    )
