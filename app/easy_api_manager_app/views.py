@@ -11,7 +11,7 @@ from django.views.decorators.http import require_GET, require_POST
 from libs.http.response import http_response
 from libs.paginator.paginator import paginate_inc
 from utils.errorcode import ERRORCODE
-from .forms import AddProjectForm, ProjectListForm
+from .forms import AddProjectForm, ProjectListForm, ProjectDeleteForm
 from .models import Project
 
 # Create your views here.
@@ -19,6 +19,11 @@ from .models import Project
 
 @require_POST
 def add_project_views(request):
+    '''
+    增加
+    :param request:
+    :return:
+    '''
     form = AddProjectForm(request.POST)
     if not form.is_valid():
         json_msg = json.loads(form.errors.as_json())
@@ -65,6 +70,7 @@ def proj_list_views(request):
     return http_response(request, context=context, statuscode=ERRORCODE.SUCCESS)
 
 
+@require_POST
 def project_edit_views(request):
     '''
     编辑项目信息
@@ -79,11 +85,35 @@ def project_edit_views(request):
     project_id = request.POST.get('project_id')
     if not project_id:
         return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is requred')
-
+    #  TODO 这里有一个 bug
     try:
         project = Project.objects.get(project_id=project_id)
         project.project_name = form.cleaned_data['project_name']
         project.save()
+        response = http_response(request, statuscode=ERRORCODE.SUCCESS)
+        return response
+    except Project.DoesNotExist:
+        return http_response(request, code=ERRORCODE.NOT_FOUND, msg=form.errors)
+
+
+@require_POST
+def delete_pro_views(request):
+    '''
+    删除项目
+    :param request:
+    :return:
+    '''
+    form = ProjectDeleteForm(request.POST)
+    if not form.is_valid():
+        json_msg = json.loads(form.errors.as_json())
+        code = json_msg.values()[0][0]['code']
+        return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
+    project_id = request.POST.get('project_id')
+    if not project_id:
+        return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is requred')
+    try:
+        project = Project.objects.get(project_id=project_id)
+        project.delete()
         response = http_response(request, statuscode=ERRORCODE.SUCCESS)
         return response
     except Project.DoesNotExist:
