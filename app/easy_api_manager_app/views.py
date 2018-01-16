@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
-from django.shortcuts import render
-from django.contrib import auth
-from django.http import HttpResponseRedirect
 from django.db import transaction
-from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.views.decorators.http import require_GET, require_POST
 from libs.http.response import http_response

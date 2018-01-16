@@ -5,9 +5,9 @@ from .models import Api
 from utils.errorcode import ERRORCODE
 
 
-class ApiInfoForm(forms.Form):
-    api_id = forms.CharField(max_length=100, required=True)
-    api_name = forms.CharField(max_length=200, required=True)
+class ApiInfoForm(forms.ModelForm):
+    class Meta:
+        model = Api
 
     def clean_api_id(self):
         api_name = self.cleaned_data['api_name']
