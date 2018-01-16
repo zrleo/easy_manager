@@ -18,9 +18,8 @@ class Api(BaseModel, TimeModelMixin):
     api_path = models.CharField(u'接口路径', max_length=500)
     request_method = models.CharField(u'请求方法', max_length=10, choices=METHOD.CHOICES, default=METHOD.POST)
     request_data = models.TextField(u'请求参数')
-    response_data = models.TextField(u'实际响应结果')
+
     expect_response_data = models.TextField(u'期望结果')
-    test_result = models.IntegerField(u'测试结果', choices=TEST_RESULT.CHOICES, default=TEST_RESULT.PASS)
     status = models.SmallIntegerField(u'接口状态', choices=STATUS.CHOICES, default=STATUS.NEW)
 
     class Meta:
