@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.easy_api_manager_app',
     'app.account',
+    'app.api_manager',
 ]
 
 MIDDLEWARE = [
