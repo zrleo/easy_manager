@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
-from django.shortcuts import render
 from django.db import transaction, IntegrityError
 from django.contrib.auth import logout, authenticate
 from .forms import RegisteredForm, LoginForm
@@ -77,7 +76,7 @@ def login_views(request):
     return response
 
 
-def logout_view(request):
+def logout_views(request):
     '''
     退出接口
     :param request:

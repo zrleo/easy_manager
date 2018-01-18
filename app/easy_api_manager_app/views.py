@@ -78,7 +78,7 @@ def project_edit_views(request):
         return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
     project_id = request.POST.get('project_id')
     if not project_id:
-        return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is requred')
+        return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is required')
     #  TODO 这里有一个 bug, 当传过来的project_id不存在时，系统直接报错了，未处理异常
     try:
         project = Project.objects.get(project_id=project_id)
@@ -87,7 +87,7 @@ def project_edit_views(request):
         response = http_response(request, statuscode=ERRORCODE.SUCCESS)
         return response
     except Project.DoesNotExist:
-        return http_response(request, code=ERRORCODE.NOT_FOUND, msg=form.errors)
+        return http_response(request, statuscode=ERRORCODE.NOT_FOUND, msg=form.errors)
 
 
 @require_POST
@@ -104,11 +104,11 @@ def delete_pro_views(request):
         return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
     project_id = request.POST.get('project_id')
     if not project_id:
-        return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is requred')
+        return http_response(request, statuscode=ERRORCODE.PARAM_ERROR, msg='product_id is required')
     try:
         project = Project.objects.get(project_id=project_id)
         project.delete()
         response = http_response(request, statuscode=ERRORCODE.SUCCESS)
         return response
     except Project.DoesNotExist:
-        return http_response(request, code=ERRORCODE.NOT_FOUND, msg=form.errors)
+        return http_response(request, statuscode=ERRORCODE.NOT_FOUND, msg=form.errors)
