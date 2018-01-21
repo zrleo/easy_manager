@@ -26,7 +26,7 @@ class Project(BaseModel, TimeModelMixin):
         return self.project_name
 
     @property
-    def breif_info(self):
+    def brief_info(self):
         return {
             'project_id': self.project_id,
             'project_name': self.project_name,

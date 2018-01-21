@@ -56,7 +56,7 @@ def proj_list_views(request):
     page_obj, total = paginate_inc(project_qs,
                                    form.cleaned_data.get('page_num') or 1,
                                    form.cleaned_data.get('page_size') or 20)
-    project_list = [project.breif_info for project in page_obj]
+    project_list = [project.brief_info for project in page_obj]
     context = {
         'total': total,
         'project_list': project_list
