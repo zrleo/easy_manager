@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from .constants import USERINFO_COOKIE_KEY
 from .models import UserSessionKey
 
+
 def get_user_info(user):
     # 获取用户信息 id， username
     return {
