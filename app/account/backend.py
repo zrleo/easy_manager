@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from .constants import USERINFO_COOKIE_KEY
 from .models import UserSessionKey
 
+
 def get_user_info(user):
     # 获取用户信息 id， username
     return {
@@ -34,6 +35,8 @@ def kickout_pre_session(request):
     '''更新session，剔除之前的登录session，记录当前的session'''
     user_id = request.user.id
     now_session_key = request.session.session_key
+    import pdb
+    pdb.set_trace()
     try:
         pre_session = UserSessionKey.objects.get(user_id=user_id)
         pre_session_key = pre_session.session_key
