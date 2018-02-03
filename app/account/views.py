@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
+import logging
 from django.db import transaction, IntegrityError
 from django.contrib.auth import logout, authenticate
+from django.views.decorators.http import require_POST, require_GET
 from .forms import RegisteredForm, LoginForm
 from libs.http.response import http_response
 from utils.errorcode import ERRORCODE
 from .models import Account
 from .backend import update_userinfo_session_cookie, do_login
 from .constants import USERINFO_COOKIE_KEY
-# Create your views here.
 
 
 def register_views(request):
@@ -46,6 +47,7 @@ def register_views(request):
         return http_response(request, statuscode=ERRORCODE.HAD_USED)
 
 
+@require_POST
 def login_views(request):
     '''
     登录接口
@@ -68,8 +70,6 @@ def login_views(request):
     user = authenticate(username=email, password=password)
     if not user:
         return http_response(request, statuscode=ERRORCODE.INVALID_PASSWORD)
-    if not user.is_active:
-        return http_response(request, statuscode=ERRORCODE.IN_BLACKLIST)
     do_login(request, user)
     response = http_response(request, statuscode=ERRORCODE.SUCCESS)
     update_userinfo_session_cookie(request, response, user)
