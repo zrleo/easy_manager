@@ -16,7 +16,6 @@ class ApiInfoForm(forms.Form):
     request_method = forms.IntegerField()
     request_data = forms.CharField()
     expect_response_data = forms.CharField()
-    status = forms.IntegerField()
 
     def clean_api_name(self):
         api_name = self.cleaned_data['api_name']

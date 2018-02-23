@@ -20,7 +20,6 @@ class Api(BaseModel, TimeModelMixin):
     request_method = models.IntegerField(u'请求方法', choices=METHOD.CHOICES, default=METHOD.POST)
     request_data = models.CharField(u'请求参数', max_length=2048)
     expect_response_data = models.CharField(u'期望结果', default=None, max_length=2048)
-    status = models.SmallIntegerField(u'接口状态', choices=STATUS.CHOICES, default=STATUS.NEW)
 
     class Meta:
         db_table = "api_api"
@@ -36,7 +35,6 @@ class Api(BaseModel, TimeModelMixin):
             'project_name': self.project_name,
             'api_id': self.api_id,
             'api_name': self.api_name,
-            'status': self.status,
             'created_time': self.created_time.strftime('%Y-%m-%d %H:%M:%S'),
             'last_update': self.last_update.strftime('%Y-%m-%d %H:%M:%S'),
         }
