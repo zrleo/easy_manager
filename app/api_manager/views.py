@@ -15,7 +15,6 @@ from .models import Api
 from .backend import get_project
 
 
-@require_POST
 def add_api(request):
     '''
     添加api
@@ -36,7 +35,6 @@ def add_api(request):
     request_data = forms.cleaned_data['request_data']
     request_method = forms.cleaned_data['request_method']
     expect_response_data = forms.cleaned_data['expect_response_data']
-    status = forms.cleaned_data['status']
     try:
         with transaction.atomic():
             api = Api.objects.create(
@@ -48,7 +46,6 @@ def add_api(request):
                 request_data=request_data,
                 request_method=request_method,
                 expect_response_data=expect_response_data,
-                status=status
             )
             api.save()
             response = http_response(request, statuscode=ERRORCODE.SUCCESS)
