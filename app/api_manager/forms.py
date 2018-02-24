@@ -8,7 +8,7 @@ from .constants import METHOD, STATUS
 
 class ApiInfoForm(forms.Form):
     project_id = forms.CharField(max_length=20)
-    project_name = forms.CharField(max_length=200)
+    # project_name = forms.CharField(max_length=200)
     api_id = forms.CharField(max_length=20)
     api_name = forms.CharField(max_length=100)
     api_url = forms.URLField(max_length=500)

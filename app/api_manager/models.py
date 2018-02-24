@@ -12,7 +12,7 @@ class Api(BaseModel, TimeModelMixin):
     接口
     '''
     project_id = models.CharField(u'项目ID', max_length=20, default=1)
-    project_name = models.CharField(u'项目名称', max_length=200)
+    # project_name = models.CharField(u'项目名称', max_length=200)
     api_id = models.CharField(u'接口ID', max_length=20)
     api_name = models.CharField(u'接口名称', max_length=100, unique=False)
     api_url = models.URLField(u'接口URL', max_length=500)
@@ -32,7 +32,7 @@ class Api(BaseModel, TimeModelMixin):
     @property
     def brief_info(self):
         return {
-            'project_name': self.project_name,
+            # 'project_name': self.project_name,
             'api_id': self.api_id,
             'api_name': self.api_name,
             'created_time': self.created_time.strftime('%Y-%m-%d %H:%M:%S'),
