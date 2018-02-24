@@ -38,6 +38,7 @@ def add_api(request):
     try:
         with transaction.atomic():
             api = Api.objects.create(
+                project_id=project_id,
                 api_id=api_id,
                 api_name=api_name,
                 api_url=api_url,
