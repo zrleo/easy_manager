@@ -14,7 +14,7 @@ class Api(BaseModel, TimeModelMixin):
     project_id = models.CharField(u'项目ID', max_length=20, default=1)
     # project_name = models.CharField(u'项目名称', max_length=200)
     api_id = models.CharField(u'接口ID', max_length=20)
-    api_name = models.CharField(u'接口名称', max_length=100, unique=False)
+    api_name = models.CharField(u'接口名称', max_length=100, unique=True)
     api_url = models.URLField(u'接口URL', max_length=500)
     api_path = models.CharField(u'接口路径', max_length=500)
     request_method = models.IntegerField(u'请求方法', choices=METHOD.CHOICES, default=METHOD.POST)
