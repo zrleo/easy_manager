@@ -3,14 +3,14 @@
 
 class METHOD(object):
     '''requests 请求方法'''
+    POST = 0
     GET = 1
-    POST = 2
-    PUT = 3
-    DELETE = 4
-    HEAD = 5
-    CONNECT = 6
-    OPTIONS = 7
-    TRACE = 8
+    PUT = 2
+    DELETE = 10
+    HEAD = 11
+    CONNECT = 20
+    OPTIONS = 30
+    TRACE = 40
 
     CHOICES = (
         (GET, 'GET方法'),

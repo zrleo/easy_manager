@@ -8,12 +8,12 @@ from .constants import METHOD, STATUS
 
 class ApiInfoForm(forms.Form):
     project_id = forms.CharField(max_length=20)
-    # project_name = forms.CharField(max_length=200)
+    project_name = forms.CharField(max_length=200)
     api_id = forms.CharField(max_length=20)
     api_name = forms.CharField(max_length=100)
     api_url = forms.URLField(max_length=500)
     api_path = forms.CharField(max_length=500)
-    request_method = forms.IntegerField()
+    request_method = forms.CharField()
     request_data = forms.CharField()
     expect_response_data = forms.CharField()
 

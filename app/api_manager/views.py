@@ -12,6 +12,7 @@ from libs.http.response import http_response
 from libs.paginator.paginator import paginate_inc
 from utils.errorcode import ERRORCODE
 from .models import Api
+from . import constants
 from .backend import get_project
 
 
@@ -27,7 +28,7 @@ def add_api(request):
         code = json_msg.values()[0][0]['code']
         return http_response(request, code=code if isinstance(code, int) else ERRORCODE.PARAM_ERROR.code, msg=json_msg)
     project_id = forms.cleaned_data['project_id']
-    # project_name = get_project(project_id)
+    project_name = forms.cleaned_data['project_name']
     api_id = forms.cleaned_data['api_id']
     api_name = forms.cleaned_data['api_name']
     api_url = forms.cleaned_data['api_url']
@@ -42,7 +43,7 @@ def add_api(request):
                 api_id=api_id,
                 api_name=api_name,
                 api_url=api_url,
-                # project_name=project_name,
+                project_name=project_name,
                 api_path=api_path,
                 request_data=request_data,
                 request_method=request_method,
