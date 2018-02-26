@@ -12,12 +12,12 @@ class Api(BaseModel, TimeModelMixin):
     接口
     '''
     project_id = models.CharField(u'项目ID', max_length=20, default=1)
-    # project_name = models.CharField(u'项目名称', max_length=200)
+    project_name = models.CharField(u'项目名称', max_length=200, null=True)
     api_id = models.CharField(u'接口ID', max_length=20)
-    api_name = models.CharField(u'接口名称', max_length=100, unique=True)
+    api_name = models.CharField(u'接口名称', max_length=100)
     api_url = models.URLField(u'接口URL', max_length=500)
     api_path = models.CharField(u'接口路径', max_length=500)
-    request_method = models.IntegerField(u'请求方法', choices=METHOD.CHOICES, default=METHOD.POST)
+    request_method = models.CharField(u'请求方法', max_length=200, default=METHOD.POST)
     request_data = models.CharField(u'请求参数', max_length=2048)
     expect_response_data = models.CharField(u'期望结果', default=None, max_length=2048)
 
@@ -32,9 +32,14 @@ class Api(BaseModel, TimeModelMixin):
     @property
     def brief_info(self):
         return {
-            # 'project_name': self.project_name,
+            'project_name': self.project_name,
             'api_id': self.api_id,
             'api_name': self.api_name,
+            'api_url': self.api_url,
+            'api_path': self.api_path,
+            'request_method': self.request_method,
+            'request_data': self.request_data,
+            'expect_response_data': self.expect_response_data,
             'created_time': self.created_time.strftime('%Y-%m-%d %H:%M:%S'),
             'last_update': self.last_update.strftime('%Y-%m-%d %H:%M:%S'),
         }
